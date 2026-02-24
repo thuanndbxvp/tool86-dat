@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng Dẫn Sử Dụng | AI Auto-Studio Suite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=1.1">
+    <style>
+        .guide-container {
+            max-width: 900px;
+            margin: 120px auto 60px;
+            padding: 0 5%;
+        }
+
+        .guide-section {
+            margin-bottom: 50px;
+        }
+
+        .guide-section h2 {
+            font-size: 2rem;
+            color: var(--primary-light);
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border-glass);
+            padding-bottom: 10px;
+        }
+
+        .guide-section h3 {
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .guide-section ul,
+        .guide-section ol {
+            padding-left: 20px;
+            margin-bottom: 20px;
+            color: var(--text-muted);
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .guide-section li {
+            margin-bottom: 10px;
+        }
+
+        .guide-section li strong,
+        .guide-section li b {
+            color: var(--text-main);
+        }
+
+        .guide-section a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .guide-section a:hover {
+            text-decoration: underline;
+        }
+
+        .guide-box {
+            background: rgba(109, 40, 217, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .guide-box h4 {
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glow-bg"></div>
+
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none;">
+                <span class="gradient-text font-heading">AI Studio Pro</span>
+            </a>
+        </div>
+        <nav>
+            <a href="index.html">Trang Chủ</a>
+            <a href="index.html#features">Tính Năng</a>
+            <a href="index.html#showcase">Ứng Dụng</a>
+            <a href="index.html#pricing">Bảng Giá</a>
+            <a href="guide.html" class="active">Hướng Dẫn</a>
+            <a href="demo.html">Demo kết quả</a>
+        </nav>
+        <a href="https://zalo.me/g/qpdnif620" target="_blank" class="btn-primary small">Tham Gia Nhóm Zalo</a>
+    </header>
+
+    <main class="guide-container">
+        <div class="text-center" style="margin-bottom: 60px;">
+            <h1 class="font-heading gradient-text" style="font-size: 3rem; margin-bottom: 15px;">Tài Liệu Hướng Dẫn</h1>
+            <p class="font-body" style="color: var(--text-muted); font-size: 1.2rem;">Hướng dẫn cài đặt và sử dụng toàn
+                diện công cụ Visual Studio Pro</p>
+            <div style="margin-top: 30px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                <a href="#giai-doan-chuan-bi" class="btn-primary" style="text-decoration: none;">Giai Đoạn Chuẩn Bị</a>
+                <a href="#van-hanh-app" class="btn-secondary" style="text-decoration: none;">Vận Hành App</a>
+            </div>
+        </div>
+
+        <section id="giai-doan-chuan-bi" class="guide-section glass-panel" style="padding: 40px;">
+            <h2 class="font-heading">Giai Đoạn Chuẩn Bị</h2>
+
+            <div class="guide-box">
+                <h4 class="font-heading">1. Hướng dẫn lấy API Key Gemini (Dùng cho Phân Cảnh AI)</h4>
+                <ol>
+                    <li>Truy cập trang chủ <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI
+                            Studio</a>.</li>
+                    <li>Đăng nhập bằng tài khoản Google của bạn (Nên dùng Chrome).</li>
+                    <li>Nhấn vào nút màu xanh <b>"Create API key"</b>.</li>
+                    <li>Chọn một dự án hiện có hoặc nhấn <b>"Create API key in new project"</b> để tạo mới.</li>
+                    <li>Màn hình sẽ hiển thị chuỗi API Key. <b>Sao chép (Copy) toàn bộ mã này</b>.</li>
+                    <li>Mở công cụ Visual Studio Pro, chuyển sang <b>Tab 1 (Storyboard)</b>, dán mã vào khung cấu hình
+                        API bên trái và nhấn <b>"Kiểm tra & Lưu"</b>.</li>
+                </ol>
+            </div>
+
+            <div class="guide-box">
+                <h4 class="font-heading">2. Hướng dẫn lấy Cookie Whisk (Dùng cho Tạo Ảnh/Video)</h4>
+                <ol>
+                    <li>Mở trình duyệt (Chrome/Edge/Cốc Cốc), cài đặt tiện ích <b>Cookie Exporter</b> <a
+                            href="https://chromewebstore.google.com/detail/cookie-exporter/fhnmmidekmgocpjdceeffppcodigillk"
+                            target="_blank">TẠI ĐÂY</a>. Nhấn <b>"Thêm vào Chrome"</b>.</li>
+                    <li>Truy cập vào trang chủ của dự án Whisk tại <a href="https://labs.google/fx/tools/whisk/project"
+                            target="_blank">https://labs.google/fx/tools/whisk/project</a> và đảm bảo bạn <b>đã đăng
+                            nhập tài khoản Google (Gmail)</b>.</li>
+                    <li>Nhấn vào biểu tượng <b>Tiện ích (Mảnh ghép)</b> ở góc phải trên cùng trình duyệt, chọn mở
+                        <b>Cookie Exporter</b>.
+                    </li>
+                    <li>Tiện ích sẽ tự động quét và hiển thị Cookie. Bạn hãy nhấn nút <b>"Copy as JSON"</b> để sao chép
+                        chuẩn định dạng.</li>
+                    <li>Mở công cụ Visual Studio Pro, chuyển sang <b>Tab 2 (Whisk)</b>, dán toàn bộ đoạn mã vừa copy vào
+                        ô chữ nhật ghi <b>"Cookie (JSON)"</b> bên góc trái.</li>
+                    <li>Nhấn nút <b>"Kiểm tra & Lưu"</b>, nếu hệ thống báo thành công hoặc "SESSION VALID" là bạn đã có
+                        thể bắt đầu tạo ảnh!</li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="van-hanh-app" class="guide-section glass-panel" style="padding: 40px; margin-top: 30px;">
+            <h2 class="font-heading">Hướng Dẫn Vận Hành App</h2>
+
+            <div class="guide-box" style="border-color: #f59e0b; background: rgba(245, 158, 11, 0.1);">
+                <h4 class="font-heading" style="color: #f59e0b; display: flex; align-items: center; gap: 8px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                        <path d="M12 9v4" />
+                        <path d="M12 17h.01" />
+                    </svg>
+                    Lưu ý Quan trọng
+                </h4>
+                <p style="color: var(--text-muted); margin-top: 10px; font-size: 0.95rem;">Đại đa số các <b>thông số kỹ
+                        thuật và cài đặt mặc định trên toàn bộ hệ thống (từ thông số AI, tốc độ, đến cắt/ghép video) đã
+                        được tối ưu hóa ở mức tốt nhất</b> để đảm bảo tỷ lệ thành công cao và chất lượng đầu ra đạt
+                    chuẩn. Khách hàng <b>chỉ nên điều chỉnh</b> các thông số chuyên sâu này khi thực sự am hiểu về AI và
+                    cấu trúc dữ liệu, nhằm tránh phát sinh lỗi không đáng có.</p>
+            </div>
+
+            <h3 class="font-heading" style="color: #c084fc;">1. TAB STORYBOARD - PHÂN TÁCH KỊCH BẢN</h3>
+            <img src="images/1.png" alt="Hướng dẫn Tab Storyboard"
+                style="width: 100%; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+            <ul>
+                <li><b>Nhập Kịch bản:</b> Upload tải lên file txt hoặc paste toàn bộ kịch bản hoàn chỉnh vào ô văn bản
+                    lớn để phân tách phần, mỗi phần sau này sẽ tương ứng với 1 ảnh/clip trình diễn.</li>
+                <li><b>Tuỳ chỉnh phong cách:</b> Lựa chọn Chủ đề (Anime, Cinematic...), Style Prompts, Tỷ lệ khung hình
+                    và Ngôn ngữ Đầu ra cho bộ ảnh.</li>
+                <li><b>Tạo Phân cảnh:</b> Bấm "Bắt đầu phân tích & Chia dòng" để AI tự động cắt lớp kịch bản thành các
+                    Prompt sinh ảnh chi tiết một cách hoàn hảo.</li>
+                <li><b>Tiếp nối mạch việc:</b> Sau khi phân cảnh hoàn tất, bạn có thể lưu thư mục, sao chép Prompt, hoặc
+                    tiện lợi nhất là bấm <b>"🚀 Tự Động Gửi sang Whisk"</b> để chuyển trọn bộ kịch bản sang bước số 2
+                    tạo ảnh/video, và bấm <b>"Tự Động Gửi sang 11Labs"</b> để chuyển thẳng kịch bản sang Tab 3 làm lồng
+                    tiếng (TTS) - <b>Nên bấm gửi cả 2 cùng lúc vì hai tiến trình này sẽ chạy song song, giúp tiết kiệm
+                        tối đa thời gian.</b>
+                </li>
+            </ul>
+
+            <h3 class="font-heading" style="color: #fb923c;">2. TAB WHISK - TẠO ẢNH & VIDEO</h3>
+            <img src="images/2.png" alt="Hướng dẫn Tab Whisk"
+                style="width: 100%; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+            <ul>
+                <li><b>Tính liên tục:</b> Nếu bạn đã nhấn "Tự Động Gửi" từ bước 1, danh sách Prompt đã có sẵn ở đây (mỗi
+                    dòng sinh ra 1 hàng để quản lý tiện lợi). Nếu không, bạn có thể copy-paste thủ công.</li>
+                <li><b>Cài đặt sinh ảnh:</b> Chọn loại mẫu sinh ảnh (Model), Tỷ lệ khung hình và Cài đặt thư mục lưu.
+                </li>
+                <li><b>Thực thi tự động:</b> Bấm chọn số lượng ảnh mong muốn tạo cho MỖI prompt ở list trên. Nhấn
+                    <b>"CHẠY NGAY"</b>. Quá trình sinh ảnh/video kết hợp tải về diễn ra hoàn toàn tự động, đa luồng. Bạn
+                    chỉ cần pha cafe và chờ đợi!
+                </li>
+            </ul>
+
+            <h3 class="font-heading" style="color: #38bdf8;">3. TAB 11LABS - LỒNG TIẾNG</h3>
+            <img src="images/3.png" alt="Hướng dẫn Tab 11Labs"
+                style="width: 100%; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+            <ul>
+                <li><b>Kịch bản Âm thanh:</b> Tương tự như Tab 2, bạn có thể gửi bộ kịch bản tự động từ Tab 1 sang đây
+                    (có nút chuyển đổi tiện lợi), hoặc dán thủ công kịch bản lời thoại bạn muốn lồng tiếng vào ô "Kịch
+                    bản cần đọc".</li>
+                <li><b>Trợ lý Âm thanh:</b> <b>Khuyến nghị mạnh mẽ sử dụng Model v3</b>. Đây là model thế hệ mới nhất
+                    của ElevenLabs, mang lại ngữ điệu cảm xúc tự nhiên như người thật và tốc độ xử lý đỉnh cao, đọc
+                    tiếng Việt mượt mà.</li>
+                <li><b>Kiểm soát Ngắt Nghỉ:</b> Tuỳ chỉnh thời gian nghỉ giữa các câu, đoạn văn để video tự nhiên nhất.
+                    Hãy chọn <b>Auto Silence</b> để AI tự động ngắt nghỉ.</li>
+                <li><b>Quản lý API:</b> Bộ công cụ đã tích hợp sẵn Pool 55 Key giấu kín mạnh mẽ. Tuy nhiên bạn hoàn toàn
+                    có thể nhấp "Quản lý API Keys" để chạy độc lập bằng Key cá nhân.</li>
+                <li><b>Xuất phẩm:</b> Nhấn <b>"BẮT ĐẦU TẠO AUDIO"</b>, kết quả sẽ tự động lưu tải thành file mp3 kèm
+                    theo thời gian. Nghe thử ngay lập tức bằng Trình phát nhạc (Audio Player) tích hợp sẵn trên app.
+                </li>
+            </ul>
+        </section>
+
+        <section class="guide-section glass-panel" style="padding: 40px; margin-top: 30px;">
+            <h2 class="font-heading">Hướng Dẫn Vận Hành App Vệ Tinh: Script Audio Splitter</h2>
+            <p style="color: var(--text-muted); margin-bottom: 25px;">Công cụ chuyên dụng xử lý âm thanh tự động bằng AI
+                Whisper và ghép nối đồng bộ video hàng loạt. App cung cấp 2 chế độ vận hành:</p>
+
+            <h3 class="font-heading" style="color: #10b981;">CÁCH 1: SỬ DỤNG TỪNG TÍNH NĂNG ĐỘC LẬP (THỦ CÔNG)</h3>
+            <img src="images/4.png" alt="Hướng dẫn Chia Tách Âm Thanh"
+                style="width: 100%; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+            <ul>
+                <li><b>Bước 1 - Chọn ngôn ngữ đầu vào:</b> Xác định ngôn ngữ của file âm thanh gốc cần tách để hệ thống
+                    phân tích chính xác nhất.</li>
+                <li><b>Bước 2 - Chia tách (Audio Splitter):</b> Nhập file âm thanh và <b>file kịch bản</b>. Hệ thống dò
+                    Khoảng Lặng (Silence) để cắt nhỏ file âm thanh và tự động xuất ra file <b>Metadata.json</b> chứa
+                    time-code (thời điểm ngắt nghỉ).</li>
+                <li><b>Bước 3 - Đồng Bộ (Video Sync):</b> Chuyển sang Tab Đồng Bộ. Nạp 3 nguyên liệu: (1) Thư mục
+                    Ảnh/Video gốc, (2) File Metadata.json vừa tạo, (3) File Audio gốc. Nhấn <b>"BẮT ĐẦU ĐỒNG BỘ"</b> để
+                    phần mềm tự ráp hình khớp tiếng.</li>
+            </ul>
+
+            <h3 class="font-heading" style="color: #ec4899;">CÁCH 2: GẶT ĐẬP LIÊN HOÀN (TỰ ĐỘNG 100%)</h3>
+            <img src="images/5.png" alt="Hướng dẫn Đồng Bộ Video và Audio Tự Động"
+                style="width: 100%; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+            <p style="color: var(--text-muted); margin-bottom: 15px;">Dành cho người muốn rảnh tay tuyệt đối. App sẽ tự
+                động gộp 2 bước: <i>vừa tách Audio xong là mang đi ghép Video luôn lập tức.</i></p>
+            <ul>
+                <li><b>Kích hoạt cơ chế:</b> Tick chọn vào ô <b>"Tự động Upload và ghép Video (Auto sync)"</b> trên giao
+                    diện Tab Chia tách Audio.</li>
+                <li><b>Chuẩn bị Đầu vào (Bắt buộc đủ 3 món):</b>
+                    <br>1. <b>File Audio gốc:</b> File âm thanh lồng tiếng toàn bộ (sản phẩm TTS xuất ra từ Tool
+                    11Labs).
+                    <br>2. <b>File Kịch bản tách phần:</b> Kịch bản <b>tải về từ công cụ 1 (Storyboard</b> bằng cách bấm
+                    "Xuất script (*.txt)"). Lưu ý: Mỗi phần kịch bản nằm trên 1 dòng riêng lẻ.
+                    <br>3. <b>Thư mục Ảnh/Video (Đầu vào của App Sync):</b> Chứa các cảnh nền. <b>Lưu ý cực kỳ quan
+                        trọng:</b> Số lượng ảnh/clip bắt buộc phải bằng chính xác số dòng (số phần) trong file kịch bản.
+                </li>
+                <li><b>Trải nghiệm phép màu:</b> Bấm chạy! Khi đó tệp <code>Metadata.json</code> sẽ được sinh ra ngầm và
+                    tự động chuyển giao. Tính năng đồng bộ sẽ tự kích hoạt: <b>Mỗi bức ảnh (hoặc clip) sẽ được tự động
+                        rải đều và khớp chính xác tuyệt đối với từng câu thoại tương ứng</b>. Nhậm nhi ly trà và chờ
+                    nhận cả rổ video thành phẩm.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="brand">
+                <span class="gradient-text font-heading font-bold">AI Studio Pro</span>
+                <p>Công cụ Tối ưu Hóa Video Số 1</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Trang Chủ</a>
+                <a href="demo.html">Demo kết quả</a>
+                <a href="#">Điều khoản</a>
+                <a href="https://zalo.me/g/qpdnif620" target="_blank">Hỗ trợ</a>
+            </div>
+        </div>
+        <div class="copyright text-center" style="margin-top: 20px;">
+            <p>&copy; 2026 AI Studio Pro. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
