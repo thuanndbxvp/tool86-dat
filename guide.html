@@ -88,13 +88,21 @@
         }
         .app-nav-card.active .anc-badge { background: var(--card-accent); color: #fff; }
 
-        /* PDF warning card */
+        /* PDF warning bar with toggle */
         .pdf-warn-bar {
-            display: flex; align-items: center; gap: 10px;
+            display: flex; align-items: center; justify-content: space-between; gap: 10px;
             background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.35);
-            border-radius: 12px; padding: 12px 18px;
-            margin-bottom: 14px; font-size: 0.88rem; color: #fca5a5; font-weight: 600;
+            border-radius: 12px; padding: 12px 20px;
+            margin-bottom: 14px; font-size: 0.88rem; color: #fca5a5; font-weight: 700;
+            cursor: pointer; user-select: none;
+            transition: background 0.2s, transform 0.1s;
         }
+        .pdf-warn-bar:hover { background: rgba(239,68,68,0.18); }
+        .pdf-warn-bar:active { transform: scale(0.99); }
+        .pdf-toggle-icon { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-size: 1.2rem; font-family: initial; }
+        .pdf-section-open .pdf-toggle-icon { transform: rotate(180deg); }
+        .pdf-cards-grid { display: none; }
+        .pdf-section-open .pdf-cards-grid { display: grid; }
 
         /* Active indicator chevron */
         .anc-chevron {
@@ -325,11 +333,17 @@
             </div>
         </div>
 
-        <!-- ── PDF Section ── -->
-        <div class="pdf-warn-bar">
-            ⚠️&nbsp; TÀI LIỆU — XIN HÃY ĐỌC TRƯỚC KHI DÙNG APP
-        </div>
-        <div class="pdf-cards-grid">
+        <!-- ── PDF Section (Togglable) ── -->
+        <div id="pdf-section-wrapper">
+            <div class="pdf-warn-bar" onclick="document.getElementById('pdf-section-wrapper').classList.toggle('pdf-section-open')">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1rem;">⚠️</span>
+                    TÀI LIỆU — XIN HÃY ĐỌC TRƯỚC KHI DÙNG APP
+                </div>
+                <span class="pdf-toggle-icon">⌄</span>
+            </div>
+            
+            <div class="pdf-cards-grid">
             <div class="app-nav-card anc-red" data-tab="pdf-dongbo" onclick="switchTab('pdf-dongbo')" style="border-color:rgba(239,68,68,0.3);">
                 <span class="anc-icon" style="font-size:1.6rem;">📄</span>
                 <div class="anc-title" style="color:#fca5a5;">HD chi tiết App Đồng bộ</div>
@@ -341,6 +355,7 @@
                 <div class="anc-title" style="color:#d8b4fe;">HD Phân cảnh</div>
                 <div class="anc-desc">Hướng dẫn tính năng Phân cảnh — PDF V4.4</div>
                 <div class="anc-chevron"></div>
+            </div>
             </div>
         </div>
 
