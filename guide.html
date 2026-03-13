@@ -172,37 +172,25 @@
         }
         .panel-subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 26px; }
 
-        /* ── Prep accordion ── */
-        .prep-toggle {
+        /* ── Prep box (always visible) ── */
+        .prep-box {
             background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 14px 18px;
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 8px;
-            font-weight: 600; font-size: 0.95rem;
-            transition: background 0.18s;
-            user-select: none;
-        }
-        .prep-toggle:hover { background: rgba(255,255,255,0.08); }
-        .prep-toggle .arrow { transition: transform 0.2s; font-style: normal; }
-        .prep-toggle.open .arrow { transform: rotate(90deg); }
-        .prep-body {
-            display: none;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 0 0 12px 12px;
-            padding: 16px 20px;
-            margin-top: -8px;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 14px;
+            padding: 18px 20px;
             margin-bottom: 20px;
             font-size: 0.9rem; color: var(--text-muted); line-height: 1.75;
         }
-        .prep-body.open { display: block; }
-        .prep-body ol { padding-left: 18px; margin: 8px 0 0; }
-        .prep-body li { margin-bottom: 8px; }
-        .prep-body a { color: var(--secondary); font-weight: 600; }
-        .prep-body code {
+        .prep-box-title {
+            font-size: 0.97rem; font-weight: 700;
+            color: #fff; margin-bottom: 12px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .prep-box ol { padding-left: 18px; margin: 0; }
+        .prep-box li { margin-bottom: 8px; }
+        .prep-box a { color: var(--secondary); font-weight: 600; }
+        .prep-box p { margin: 0 0 8px; }
+        .prep-box code {
             background: rgba(56,189,248,0.15); color: #7dd3fc;
             padding: 2px 10px; border-radius: 6px;
             font-size: 0.97rem; letter-spacing: 1px; user-select: all;
@@ -269,7 +257,7 @@
         </div>
 
         <!-- ── App Cards Navigation ── -->
-        <p class="nav-section-label">App chính</p>
+
         <div class="app-cards-grid">
             <div class="app-nav-card anc-purple active" data-tab="autosync" onclick="switchTab('autosync')">
                 <span class="anc-badge">MAIN APP</span>
@@ -391,12 +379,8 @@
             </div>
             <p class="panel-subtitle">AI tự động chia kịch bản thành từng Prompt sinh ảnh riêng biệt, rồi gửi thẳng sang Tab Whisk & 11Labs.</p>
 
-            <!-- Prep accordion -->
-            <div class="prep-toggle" onclick="togglePrep(this)">
-                <span>🔑 &nbsp;Chuẩn bị — Lấy API Key Gemini</span>
-                <i class="arrow">›</i>
-            </div>
-            <div class="prep-body">
+            <div class="prep-box">
+                <div class="prep-box-title">🔑 Chuẩn bị — Lấy API Key Gemini</div>
                 <ol>
                     <li>Truy cập <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>.</li>
                     <li>Đăng nhập Google → nhấn <b>"Create API key"</b> → sao chép toàn bộ mã.</li>
@@ -445,12 +429,8 @@
             </div>
             <p class="panel-subtitle">Tự động gửi từng Prompt sang Whisk (Google), sinh ảnh/video đa luồng và tải về máy hoàn toàn tự động.</p>
 
-            <!-- Prep accordion -->
-            <div class="prep-toggle" onclick="togglePrep(this)">
-                <span>🔑 &nbsp;Chuẩn bị — Lấy Cookie Whisk (chỉ làm 1 lần)</span>
-                <i class="arrow">›</i>
-            </div>
-            <div class="prep-body">
+            <div class="prep-box">
+                <div class="prep-box-title">🔑 Chuẩn bị — Lấy Cookie Whisk <span style="font-size:0.78rem;font-weight:500;color:var(--text-muted);">(chỉ làm 1 lần)</span></div>
                 <ol>
                     <li>Cài tiện ích <b>Cookie Exporter</b> <a href="https://chromewebstore.google.com/detail/cookie-exporter/fhnmmidekmgocpjdceeffppcodigillk" target="_blank">tại đây</a> trên Chrome/Edge/Cốc Cốc.</li>
                     <li>Truy cập <a href="https://labs.google/fx/tools/whisk/project" target="_blank">labs.google/fx/tools/whisk</a> — đăng nhập Gmail.</li>
@@ -465,20 +445,16 @@
             <div class="steps-grid">
                 <div class="step-card step-orange">
                     <div class="step-num">1</div>
-                    <h4>Danh sách Prompt sẵn sàng</h4>
-                    <p>Nếu đã bấm "Gửi sang Whisk" từ Tab Storyboard, list Prompt đã có sẵn. Nếu không, paste thủ công.</p>
-                </div>
-                <div class="step-card step-orange">
-                    <div class="step-num">2</div>
                     <h4>Cài đặt Sinh ảnh</h4>
                     <p>Chọn Model, Tỷ lệ khung hình và thư mục lưu kết quả.</p>
                 </div>
                 <div class="step-card step-orange">
-                    <div class="step-num">3</div>
+                    <div class="step-num">2</div>
                     <h4>CHẠY NGAY</h4>
                     <p>Chọn số ảnh muốn tạo cho MỖI prompt → nhấn <b>"CHẠY NGAY"</b>. Sinh ảnh + tải về tự động, đa luồng. Pha cafe và chờ! ☕</p>
                 </div>
             </div>
+
         </div>
 
         <!-- ═══════════════════════════════════════ -->
@@ -491,12 +467,8 @@
             </div>
             <p class="panel-subtitle">Tạo file âm thanh từ kịch bản bằng ElevenLabs — giọng đọc tiếng Việt tự nhiên, xuất file mp3 tự động.</p>
 
-            <!-- Prep 1: VPN -->
-            <div class="prep-toggle" onclick="togglePrep(this)">
-                <span>🛡️ &nbsp;Chuẩn bị 1 — Cài ExpressVPN (bắt buộc)</span>
-                <i class="arrow">›</i>
-            </div>
-            <div class="prep-body">
+            <div class="prep-box">
+                <div class="prep-box-title">🛡️ Chuẩn bị 1 — Cài ExpressVPN <span style="font-size:0.78rem;font-weight:500;color:#fca5a5;">(bắt buộc)</span></div>
                 <p style="color:#fca5a5; margin-bottom:10px;">ElevenLabs thường xuyên chặn IP lạm dụng API free — cần bật VPN trước khi dùng Tab này.</p>
                 <ol>
                     <li>Tải ExpressVPN: <a href="https://www.expressvpn.works/clients/windows/expressvpn-windows-x64-12.201.0.12153_release.exe" target="_blank"><b>Nhấn vào đây để tải</b></a> (Windows 64-bit).</li>
@@ -508,14 +480,10 @@
                 </ol>
             </div>
 
-            <!-- Prep 2: API Keys -->
-            <div class="prep-toggle" onclick="togglePrep(this)">
-                <span>🔑 &nbsp;Chuẩn bị 2 — API Key ElevenLabs (Pool 41 keys)</span>
-                <i class="arrow">›</i>
-            </div>
-            <div class="prep-body">
+            <div class="prep-box">
+                <div class="prep-box-title">🔑 Chuẩn bị 2 — API Key ElevenLabs <span style="font-size:0.78rem;font-weight:500;color:var(--text-muted);">(Pool 41 keys)</span></div>
                 <p>Nhấn nút bên dưới để copy toàn bộ 41 key → dán vào mục <b>"Quản lý API Keys"</b> trong app (mỗi dòng 1 key) → bấm <b>THÊM</b> → bấm <b>Kiểm tra</b> và chờ app tự kiểm tra toàn bộ.</p>
-                <p style="margin-top:6px;">Nếu dùng key cá nhân từ <a href="https://elevenlabs.io" target="_blank">ElevenLabs</a>, dán thêm vào danh sách đó.</p>
+                <p>Nếu dùng key cá nhân từ <a href="https://elevenlabs.io" target="_blank">ElevenLabs</a>, dán thêm vào danh sách đó.</p>
                 <div>
                     <button class="copy-key-btn" id="btn-copy-apikeys" onclick="copyElevenLabsKeys()">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
@@ -654,12 +622,7 @@
             if (tabMap[target]) switchTab(target);
         }
 
-        // ── Prep accordion ──
-        function togglePrep(el) {
-            el.classList.toggle('open');
-            const body = el.nextElementSibling;
-            body.classList.toggle('open');
-        }
+        // (prep boxes are always visible — no accordion needed)
 
         // ── Copy ElevenLabs keys ──
         function copyElevenLabsKeys() {
