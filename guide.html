@@ -1,144 +1,202 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hướng Dẫn Sử Dụng | AI Auto-Studio Suite</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=1.1">
     <style>
-        .guide-container {
-            max-width: 900px;
-            margin: 120px auto 60px;
+        /* ── Layout ── */
+        .guide-wrap {
+            max-width: 960px;
+            margin: 110px auto 80px;
             padding: 0 5%;
         }
+        .guide-hero { text-align: center; margin-bottom: 48px; }
+        .guide-hero h1 { font-size: 2.8rem; margin-bottom: 10px; }
+        .guide-hero p  { color: var(--text-muted); font-size: 1.1rem; }
 
-        .guide-section {
-            margin-bottom: 50px;
+        /* ── Main tab bar ── */
+        .tab-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 36px;
         }
-
-        .guide-section h2 {
-            font-size: 2rem;
-            color: var(--primary-light);
-            margin-bottom: 25px;
-            border-bottom: 1px solid var(--border-glass);
-            padding-bottom: 10px;
-        }
-
-        .guide-section h3 {
-            font-size: 1.3rem;
-            color: var(--accent);
-            margin-top: 30px;
-            margin-bottom: 15px;
-        }
-
-        .guide-section ul,
-        .guide-section ol {
-            padding-left: 20px;
-            margin-bottom: 20px;
+        .tab-btn {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 10px 22px;
+            border-radius: 50px;
+            border: 1.5px solid transparent;
+            font-size: 0.95rem; font-weight: 600;
+            cursor: pointer; background: rgba(255,255,255,0.05);
             color: var(--text-muted);
-            line-height: 1.8;
-            font-size: 1.05rem;
+            transition: all 0.22s ease;
+        }
+        .tab-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .tab-btn.active { color: #fff; }
+        .tab-btn[data-tab="autosync"].active  { background: rgba(168,85,247,0.25); border-color: #a855f7; color: #c084fc; }
+        .tab-btn[data-tab="storyboard"].active{ background: rgba(129,140,248,0.2); border-color: #818cf8; color: #a5b4fc; }
+        .tab-btn[data-tab="whisk"].active     { background: rgba(251,146,60,0.2);  border-color: #fb923c; color: #fdba74; }
+        .tab-btn[data-tab="elevenlabs"].active{ background: rgba(56,189,248,0.2);  border-color: #38bdf8; color: #7dd3fc; }
+        .tab-btn[data-tab="pdf-dongbo"].active{ background: rgba(239,68,68,0.2);   border-color: #ef4444; color: #fca5a5; }
+        .tab-btn[data-tab="pdf-phanccanh"].active{ background: rgba(168,85,247,0.2); border-color: #a855f7; color: #d8b4fe; }
+
+        .tab-divider {
+            width: 100%; height: 1px;
+            background: var(--border-glass);
+            margin: 4px 0 8px;
+        }
+        .tab-row-label {
+            width: 100%; text-align: center;
+            font-size: 0.78rem; font-weight: 600; letter-spacing: .08em;
+            color: var(--text-muted); text-transform: uppercase;
+            margin-bottom: 2px;
         }
 
-        .guide-section li {
-            margin-bottom: 10px;
-        }
+        /* ── Tab panels ── */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
 
-        .guide-section li strong,
-        .guide-section li b {
-            color: var(--text-main);
+        /* ── Flashcard step grid ── */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+            margin: 24px 0;
         }
-
-        .guide-section a {
-            color: var(--secondary);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .guide-section a:hover {
-            text-decoration: underline;
-        }
-
-        .guide-box {
-            background: rgba(109, 40, 217, 0.1);
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        .guide-box h4 {
-            color: var(--text-main);
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-
-        /* App block cards */
-        .app-block {
+        .step-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 14px;
-            padding: 30px;
-            margin-bottom: 30px;
+            padding: 20px 20px 18px;
+            transition: transform 0.18s, box-shadow 0.18s;
+            position: relative;
+        }
+        .step-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.35); }
+        .step-num {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 30px; height: 30px; border-radius: 50%;
+            font-size: 0.85rem; font-weight: 800;
+            margin-bottom: 12px;
+        }
+        .step-card h4 { font-size: 0.97rem; font-weight: 700; margin-bottom: 7px; color: #fff; }
+        .step-card p  { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; margin: 0; }
+        .step-card a  { color: inherit; font-weight: 600; }
+
+        /* colour variants */
+        .step-purple .step-num { background: rgba(168,85,247,0.25); color: #c084fc; }
+        .step-purple { border-color: rgba(168,85,247,0.2); }
+        .step-indigo .step-num { background: rgba(129,140,248,0.25); color: #a5b4fc; }
+        .step-indigo { border-color: rgba(129,140,248,0.2); }
+        .step-orange .step-num { background: rgba(251,146,60,0.25);  color: #fdba74; }
+        .step-orange { border-color: rgba(251,146,60,0.2); }
+        .step-cyan   .step-num { background: rgba(56,189,248,0.25);  color: #7dd3fc; }
+        .step-cyan   { border-color: rgba(56,189,248,0.2); }
+
+        /* ── Info / tip / warning banners ── */
+        .fc-banner {
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 20px 0;
+            display: flex; gap: 12px; align-items: flex-start;
+            font-size: 0.9rem; line-height: 1.65;
+        }
+        .fc-banner .icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+        .fc-banner b { color: #fff; }
+        .fc-tip  { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); color: #fcd34d; }
+        .fc-warn { background: rgba(239,68,68,0.1);  border: 1px solid rgba(239,68,68,0.3);  color: #fca5a5; }
+        .fc-info { background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.3); color: #7dd3fc; }
+        .fc-prep { background: rgba(129,140,248,0.1);border: 1px solid rgba(129,140,248,0.3);color: #a5b4fc; }
+
+        /* ── Section title inside panel ── */
+        .panel-title {
+            display: flex; align-items: center; gap: 12px;
+            margin-bottom: 6px;
+        }
+        .panel-title h2 {
+            font-size: 1.7rem; font-weight: 800; margin: 0;
+        }
+        .panel-subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 26px; }
+
+        /* ── Prep accordion ── */
+        .prep-toggle {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 14px 18px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 600; font-size: 0.95rem;
+            transition: background 0.18s;
+            user-select: none;
+        }
+        .prep-toggle:hover { background: rgba(255,255,255,0.08); }
+        .prep-toggle .arrow { transition: transform 0.2s; font-style: normal; }
+        .prep-toggle.open .arrow { transform: rotate(90deg); }
+        .prep-body {
+            display: none;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 0 0 12px 12px;
+            padding: 16px 20px;
+            margin-top: -8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem; color: var(--text-muted); line-height: 1.75;
+        }
+        .prep-body.open { display: block; }
+        .prep-body ol { padding-left: 18px; margin: 8px 0 0; }
+        .prep-body li { margin-bottom: 8px; }
+        .prep-body a { color: var(--secondary); font-weight: 600; }
+        .prep-body code {
+            background: rgba(56,189,248,0.15); color: #7dd3fc;
+            padding: 2px 10px; border-radius: 6px;
+            font-size: 0.97rem; letter-spacing: 1px; user-select: all;
         }
 
-        .app-block-storyboard {
-            border: 1px solid rgba(192, 132, 252, 0.35);
-            background: rgba(192, 132, 252, 0.05);
+        /* ── Screenshot ── */
+        .screen-img {
+            width: 100%; border-radius: 12px;
+            margin: 18px 0;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.08);
         }
 
-        .app-block-whisk {
-            border: 1px solid rgba(251, 146, 60, 0.35);
-            background: rgba(251, 146, 60, 0.05);
+        /* ── Copy key button ── */
+        .copy-key-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: linear-gradient(135deg,#0ea5e9,#38bdf8);
+            color: #0f172a; border: none; border-radius: 8px;
+            padding: 10px 22px; font-size: 0.93rem; font-weight: 700;
+            cursor: pointer; transition: opacity 0.2s;
+            margin-top: 12px;
         }
+        .copy-key-btn:hover { opacity: 0.85; }
 
-        .app-block-elevenlabs {
-            border: 1px solid rgba(56, 189, 248, 0.35);
-            background: rgba(56, 189, 248, 0.05);
+        /* ── PDF section ── */
+        .pdf-frame {
+            width: 100%; height: 80vh;
+            border: none; border-radius: 12px;
+            background: #1e1e2e;
+            box-shadow: 0 0 30px rgba(0,0,0,0.4);
+            margin-top: 18px;
         }
-
-        .prep-box {
-            border-radius: 10px;
-            padding: 18px 20px;
-            margin-bottom: 22px;
-        }
-
-        .prep-box-storyboard {
-            border: 1px solid rgba(129, 140, 248, 0.4);
-            background: rgba(129, 140, 248, 0.09);
-        }
-
-        .prep-box-whisk {
-            border: 1px solid rgba(251, 146, 60, 0.4);
-            background: rgba(251, 146, 60, 0.09);
-        }
-
-        .prep-box-elevenlabs {
-            border: 1px solid rgba(56, 189, 248, 0.4);
-            background: rgba(56, 189, 248, 0.09);
-        }
-
-        .prep-box h4 {
-            margin-bottom: 10px;
-            font-size: 1.05rem;
-        }
-
-        .prep-box ol {
-            margin-bottom: 0;
+        .pdf-download-link {
+            font-size: 0.9rem; font-weight: 600;
         }
     </style>
 </head>
-
 <body>
     <div class="glow-bg"></div>
 
     <header class="navbar">
         <div class="logo">
-            <a href="index.html" style="text-decoration: none;">
+            <a href="index.html" style="text-decoration:none;">
                 <span class="gradient-text font-heading">Auto Sync Pro</span>
             </a>
         </div>
@@ -153,306 +211,303 @@
         <a href="https://zalo.me/g/qpdnif620" target="_blank" class="btn-primary small">Tham Gia Nhóm Zalo</a>
     </header>
 
-    <main class="guide-container">
-        <div class="text-center" style="margin-bottom: 60px;">
-            <h1 class="font-heading gradient-text" style="font-size: 3rem; margin-bottom: 15px;">Tài Liệu Hướng Dẫn</h1>
-            <p class="font-body" style="color: var(--text-muted); font-size: 1.2rem;">Hướng dẫn cài đặt và sử dụng toàn
-                diện công cụ Visual Studio Pro</p>
+    <main class="guide-wrap">
 
-            <div style="margin-top: 30px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-                <a href="#advance-autosync" class="btn-primary" style="text-decoration: none;">🎬 App Đồng Bộ</a>
-                <a href="#tab-whisk" class="btn-secondary" style="text-decoration: none;">🎨 Tạo Ảnh Whisk</a>
-                <a href="#tab-elevenlabs" class="btn-secondary" style="text-decoration: none;">🎙️ Tạo Audio 11Labs</a>
+        <!-- Hero -->
+        <div class="guide-hero">
+            <h1 class="font-heading gradient-text">Tài Liệu Hướng Dẫn</h1>
+            <p>Chọn phần bạn cần bên dưới — mỗi bước được tóm gọn rõ ràng.</p>
+        </div>
+
+        <!-- Tab bar -->
+        <div class="tab-bar" id="tabBar">
+            <span class="tab-row-label">App chính</span>
+            <button class="tab-btn active" data-tab="autosync">🎬 App Đồng Bộ</button>
+
+            <div class="tab-divider"></div>
+            <span class="tab-row-label">Visual Studio Pro — App tặng kèm</span>
+            <button class="tab-btn" data-tab="storyboard">🧩 Phân cảnh AI</button>
+            <button class="tab-btn" data-tab="whisk">🎨 Tạo Ảnh Whisk</button>
+            <button class="tab-btn" data-tab="elevenlabs">🎙️ Lồng Tiếng 11Labs</button>
+
+            <div class="tab-divider"></div>
+            <span class="tab-row-label">Tài liệu PDF</span>
+            <button class="tab-btn" data-tab="pdf-dongbo">📄 HD chi tiết Đồng bộ</button>
+            <button class="tab-btn" data-tab="pdf-phanccanh">📄 HD Phân cảnh</button>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!--  PANEL 1 — APP ĐỒNG BỘ                 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="tab-panel active glass-panel" id="panel-autosync" style="padding:36px;">
+            <div class="panel-title">
+                <span style="font-size:2rem;">🎬</span>
+                <h2 class="font-heading" style="color:#c084fc;">Advance Audio-Video AutoSync</h2>
+            </div>
+            <p class="panel-subtitle">App cốt lõi — biến bộ nguyên liệu (Audio + Ảnh/Video + Kịch bản) thành video hoàn chỉnh chỉ với <b style="color:#fff;">1 nút bấm</b>.</p>
+
+            <div class="fc-banner fc-warn">
+                <span class="icon">⚠️</span>
+                <div>Các thông số mặc định đã được <b>tối ưu sẵn</b> — không cần chỉnh khi mới dùng. Chỉ cần nạp đủ nguyên liệu và nhấn chạy.</div>
             </div>
 
-            <div style="margin-top: 14px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-                <a href="#pdf-dongbo" style="
-                    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
-                    background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.45);
-                    color: #fca5a5; border-radius: 10px; padding: 9px 20px;
-                    font-size: 0.95rem; font-weight: 600; transition: background 0.2s;
-                " onmouseover="this.style.background='rgba(239,68,68,0.28)'" onmouseout="this.style.background='rgba(239,68,68,0.15)'">
-                    📄 HD chi tiết App Đồng bộ
-                </a>
-                <a href="#pdf-phanccanh" style="
-                    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
-                    background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.45);
-                    color: #d8b4fe; border-radius: 10px; padding: 9px 20px;
-                    font-size: 0.95rem; font-weight: 600; transition: background 0.2s;
-                " onmouseover="this.style.background='rgba(168,85,247,0.28)'" onmouseout="this.style.background='rgba(168,85,247,0.15)'">
-                    📄 Hướng dẫn Phân cảnh
-                </a>
+            <img src="images/6.png" alt="Giao diện App Đồng Bộ" class="screen-img">
+
+            <div class="steps-grid">
+                <div class="step-card step-purple">
+                    <div class="step-num">1</div>
+                    <h4>Chọn File Audio</h4>
+                    <p>Upload file âm thanh lồng tiếng đã chuẩn bị (xuất từ Tab 11Labs hoặc tự thu âm).</p>
+                </div>
+                <div class="step-card step-purple">
+                    <div class="step-num">2</div>
+                    <h4>Chọn File Kịch bản (.txt)</h4>
+                    <p>Mỗi câu / cảnh nằm trên <b>1 dòng riêng</b>. Số dòng phải khớp chính xác số ảnh/clip.</p>
+                </div>
+                <div class="step-card step-purple">
+                    <div class="step-num">3</div>
+                    <h4>Chọn Thư mục Ảnh/Video</h4>
+                    <p>Thư mục chứa các cảnh nền. Mỗi ảnh/clip tương ứng với 1 dòng kịch bản.</p>
+                </div>
+                <div class="step-card step-purple">
+                    <div class="step-num">4</div>
+                    <h4>Bắt Đầu Đồng Bộ</h4>
+                    <p>Nhấn <b>BẮT ĐẦU ĐỒNG BỘ</b>. App phân tích và căn thời lượng từng cảnh theo audio.</p>
+                </div>
+                <div class="step-card step-purple">
+                    <div class="step-num">5</div>
+                    <h4>Xét duyệt Phân cảnh</h4>
+                    <p>Màn hình phân cảnh hiện ra — chọn ảnh/video nào sẽ hiển thị ở cảnh nào.</p>
+                </div>
+                <div class="step-card step-purple">
+                    <div class="step-num">6</div>
+                    <h4>Chọn Thư mục Đầu ra</h4>
+                    <p>Nơi lưu video thành phẩm sau khi app xử lý xong.</p>
+                </div>
+                <div class="step-card step-purple">
+                    <div class="step-num">7</div>
+                    <h4>Xuất Video</h4>
+                    <p>App tính toán tốc độ (Speed/Trim/Loop) và xuất video khớp âm thanh chính xác từng ms.</p>
+                </div>
+            </div>
+
+            <div class="fc-banner fc-tip">
+                <span class="icon">⚡</span>
+                <div><b>Tip Import Nhanh:</b> Đặt tất cả nguyên liệu (audio, kịch bản, ảnh/clip) vào cùng 1 thư mục → nhấn <b>Browse → "Thư mục tất cả nguyên liệu"</b> ở góc phải trên — app tự động điền đầy đủ. Không cần chọn từng thứ!</div>
             </div>
         </div>
 
-        <section id="advance-autosync" class="guide-section glass-panel" style="padding: 40px;">
-            <h2 class="font-heading">Hướng Dẫn Vận Hành App Chính</h2>
+        <!-- ═══════════════════════════════════════ -->
+        <!--  PANEL 2 — STORYBOARD                  -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="tab-panel glass-panel" id="panel-storyboard" style="padding:36px;">
+            <div class="panel-title">
+                <span style="font-size:2rem;">🧩</span>
+                <h2 class="font-heading" style="color:#a5b4fc;">Tab Storyboard — Phân Tách Kịch Bản & Tạo Prompt Ảnh</h2>
+            </div>
+            <p class="panel-subtitle">AI tự động chia kịch bản thành từng Prompt sinh ảnh riêng biệt, rồi gửi thẳng sang Tab Whisk & 11Labs.</p>
 
-            <div class="guide-box"
-                style="border-color: #a855f7; background: rgba(168,85,247,0.12); margin-bottom: 30px;">
-                <h4 class="font-heading" style="color: #c084fc; font-size: 1.4rem;">🎬 Advance Audio-Video AutoSync</h4>
-                <p style="color: var(--text-muted); margin-top: 8px;">App cốt lõi — biến bộ nguyên liệu (Audio +
-                    Ảnh/Video + Kịch bản) thành video hoàn chỉnh chỉ với <strong>1 nút bấm duy nhất</strong>.</p>
+            <!-- Prep accordion -->
+            <div class="prep-toggle" onclick="togglePrep(this)">
+                <span>🔑 &nbsp;Chuẩn bị — Lấy API Key Gemini</span>
+                <i class="arrow">›</i>
+            </div>
+            <div class="prep-body">
+                <ol>
+                    <li>Truy cập <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>.</li>
+                    <li>Đăng nhập Google → nhấn <b>"Create API key"</b> → sao chép toàn bộ mã.</li>
+                    <li>Mở Visual Studio Pro → Tab 1 (Storyboard) → dán vào khung API → nhấn <b>"Kiểm tra &amp; Lưu"</b>.</li>
+                </ol>
             </div>
 
-            <img src="images/6.png" alt="Advance Audio-Video AutoSync Interface"
-                style="width: 100%; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 0 30px rgba(168,85,247,0.4); border: 1px solid rgba(168,85,247,0.3);">
+            <img src="images/1.png" alt="Giao diện Tab Storyboard" class="screen-img">
 
-            <div class="guide-box"
-                style="border-color: #f59e0b; background: rgba(245, 158, 11, 0.1); margin-bottom: 25px;">
-                <h4 class="font-heading" style="color: #f59e0b; display: flex; align-items: center; gap: 8px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
-                        <path d="M12 9v4" />
-                        <path d="M12 17h.01" />
-                    </svg>
-                    Lưu ý Quan trọng
-                </h4>
-                <p style="color: var(--text-muted); margin-top: 10px; font-size: 0.95rem;">Các thông số kỹ thuật mặc
-                    định trên app đã được tối ưu hóa sẵn — <b>không cần chỉnh thay</b> khi mới dùng. Chỉ nạp đủ nguyên
-                    liệu và nhấn chạy.</p>
-            </div>
-
-            <h3 class="font-heading" style="color: #c084fc;">CÁCH SỬ DỤNG — MỘT MÀN HÌNH, MỘT NÚT BẤM</h3>
-            <ul>
-                <li><b>Bước 1 — Chọn File Audio:</b> Upload file âm thanh lồng tiếng đã chuẩn bị sẵn (xuất ra từ Tool
-                    TTS hoặc tự thu âm).</li>
-                <li><b>Bước 2 — Chọn File Kịch bản (.txt):</b> File kịch bản có mỗi câu / mỗi cảnh nằm trên 1 dòng
-                    riêng. <b>Số dòng phải khớp chính xác số ảnh/clip.</b></li>
-                <li><b>Bước 3 — Chọn Thư mục Ảnh / Video (đầu vào):</b> Thư mục chứa các cảnh nền. Mỗi ảnh/clip tương
-                    ứng với 1 dòng kịch bản.</li>
-                <li><b>Bước 4 — Bấm nút:</b> BẮT ĐẦU ĐỒNG BỘ</li>
-                <li><b>Bước 5 — Sau khi Quá trình đồng bộ kết thúc:</b> Màn hình phân cảnh hiện ra, bạn có thể chọn ảnh/video nào sẽ hiển thị ở cảnh nào.</li>
-                <li><b>Bước 6 — Chọn Thư mục Đầu ra:</b> Nơi lưu video thành phẩm sau khi app xử lý xong.</li>
-                <li><b>Bước 7 — Nhấn "Xuất Video":</b> App sẽ tính toán thời lượng từng cảnh, điều chỉnh tốc độ (Speed/Trim/Loop) và xuất video hoàn chỉnh khớp âm thanh chính
-                    xác từng ms.</li>
-            </ul>
-
-            <div class="guide-box" style="border-color: #f59e0b; background: rgba(245,158,11,0.12); margin-top: 20px;">
-                <h4 class="font-heading" style="color: #fbbf24;">&#x26A1; Tip: Import Nhanh Toàn Bộ 1 Lần</h4>
-                <p style="color: var(--text-muted); margin-top: 8px; font-size: 0.95rem;">
-                    Nếu bạn đặt <b>tất cả nguyên liệu</b> (audio, kịch bản, ảnh/clip) vào cùng 1 thư mục, hãy nhấn
-                    <b>Browse → "Thư mục tất cả nguyên liệu"</b> ở góc phải trên — app sẽ tự động điền đầy đủ các ô và
-                    tự chọn Output. Không cần chọn từng thứ thủ công!
-                </p>
-            </div>
-        </section>
-
-        <!-- ===================================================== -->
-        <!--        VISUAL STUDIO PRO — APP TẶNG KÈM               -->
-        <!-- ===================================================== -->
-        <section id="visual-studio-pro" class="guide-section glass-panel"
-            style="padding: 40px; margin-top: 30px; border-color: rgba(99,102,241,0.3);">
-            <h2 class="font-heading" style="color: #818cf8;">App Tặng Kèm — Visual Studio Pro (Whisk + 11Labs Pipeline)
-            </h2>
-            <p style="color: var(--text-muted); margin-bottom: 30px;">Bộ công cụ hỗ trợ tạo nguyên liệu tự động từ kịch
-                bản: tạo ảnh/video Whisk, lồng tiếng 11Labs. Tặng miễn phí kèm theo gói mua.</p>
-
-            <!-- ===== TAB STORYBOARD ===== -->
-            <div class="app-block app-block-storyboard">
-                <h3 class="font-heading" style="color: #c084fc; margin-top: 0; margin-bottom: 20px;">
-                    1. TAB STORYBOARD — PHÂN TÁCH KỊCH BẢN &amp; TẠO PROMPT ẢNH
-                </h3>
-
-                <div class="prep-box prep-box-storyboard">
-                    <h4 class="font-heading" style="color: #a5b4fc;">🔑 Chuẩn Bị — Lấy API Key Gemini</h4>
-                    <ol>
-                        <li>Truy cập <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>.</li>
-                        <li>Đăng nhập Google &rarr; nhấn <b>"Create API key"</b> &rarr; sao chép toàn bộ mã.</li>
-                        <li>Mở Visual Studio Pro &rarr; Tab 1 (Storyboard) &rarr; dán vào khung API &rarr; nhấn <b>"Kiểm tra &amp; Lưu"</b>.</li>
-                    </ol>
+            <div class="steps-grid">
+                <div class="step-card step-indigo">
+                    <div class="step-num">1</div>
+                    <h4>Nhập Kịch bản</h4>
+                    <p>Upload file .txt hoặc paste toàn bộ kịch bản vào ô văn bản lớn — mỗi phần sẽ tương ứng 1 ảnh/clip.</p>
                 </div>
+                <div class="step-card step-indigo">
+                    <div class="step-num">2</div>
+                    <h4>Tuỳ chỉnh Phong cách</h4>
+                    <p>Chọn Chủ đề (Anime, Cinematic...), Style Prompts, Tỷ lệ khung hình và Ngôn ngữ Đầu ra.</p>
+                </div>
+                <div class="step-card step-indigo">
+                    <div class="step-num">3</div>
+                    <h4>Tạo Phân cảnh</h4>
+                    <p>Bấm <b>"Bắt đầu phân tích &amp; Chia dòng"</b> — AI cắt lớp kịch bản thành Prompt sinh ảnh chi tiết.</p>
+                </div>
+                <div class="step-card step-indigo">
+                    <div class="step-num">4</div>
+                    <h4>Tải File Kịch bản</h4>
+                    <p>Sau khi phân cảnh xong, tải file <b>.txt</b> và <b>.xlsx</b> bằng các nút ở góc trên bên phải.</p>
+                </div>
+                <div class="step-card step-indigo">
+                    <div class="step-num">5</div>
+                    <h4>Gửi sang 2 Tab cùng lúc</h4>
+                    <p>Bấm <b>"🚀 Gửi sang Whisk"</b> và <b>"Gửi sang 11Labs"</b> đồng thời — hai tiến trình chạy song song, tiết kiệm thời gian tối đa.</p>
+                </div>
+            </div>
+        </div>
 
-                <img src="images/1.png" alt="Huong dan Tab Storyboard"
-                    style="width: 100%; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                <ul>
-                    <li><b>Nhập Kịch bản:</b> Upload file txt hoặc paste toàn bộ kịch bản vào ô văn bản lớn để phân tách — mỗi phần tương ứng với 1 ảnh/clip trình diễn.</li>
-                    <li><b>Tuỳ chỉnh phong cách:</b> Lựa chọn Chủ đề (Anime, Cinematic...), Style Prompts, Tỷ lệ khung hình và Ngôn ngữ Đầu ra cho bộ ảnh.</li>
-                    <li><b>Tạo Phân cảnh:</b> Bấm "Bắt đầu phân tích &amp; Chia dòng" để AI tự động cắt lớp kịch bản thành các Prompt sinh ảnh chi tiết.</li>
-                    <li><b>Sau bước này các bạn nhớ tải file kịch bản .txt và file excel bằng cách bấm vào các nút ở góc trên bên phải của app nhé.</b></li>
-                </ul>
+        <!-- ═══════════════════════════════════════ -->
+        <!--  PANEL 3 — WHISK                       -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="tab-panel glass-panel" id="panel-whisk" style="padding:36px;">
+            <div class="panel-title">
+                <span style="font-size:2rem;">🎨</span>
+                <h2 class="font-heading" style="color:#fdba74;">Tab Whisk — Tạo Ảnh &amp; Video</h2>
+            </div>
+            <p class="panel-subtitle">Tự động gửi từng Prompt sang Whisk (Google), sinh ảnh/video đa luồng và tải về máy hoàn toàn tự động.</p>
+
+            <!-- Prep accordion -->
+            <div class="prep-toggle" onclick="togglePrep(this)">
+                <span>🔑 &nbsp;Chuẩn bị — Lấy Cookie Whisk (chỉ làm 1 lần)</span>
+                <i class="arrow">›</i>
+            </div>
+            <div class="prep-body">
+                <ol>
+                    <li>Cài tiện ích <b>Cookie Exporter</b> <a href="https://chromewebstore.google.com/detail/cookie-exporter/fhnmmidekmgocpjdceeffppcodigillk" target="_blank">tại đây</a> trên Chrome/Edge/Cốc Cốc.</li>
+                    <li>Truy cập <a href="https://labs.google/fx/tools/whisk/project" target="_blank">labs.google/fx/tools/whisk</a> — đăng nhập Gmail.</li>
+                    <li>Mở Cookie Exporter → nhấn <b>"Copy as JSON"</b>.</li>
+                    <li>Mở Visual Studio Pro → Tab 2 (Whisk) → dán vào ô <b>"Cookie (JSON)"</b> → nhấn <b>"Kiểm tra &amp; Lưu"</b>.</li>
+                </ol>
             </div>
 
-            <!-- ===== TAB WHISK ===== -->
-            <div id="tab-whisk" class="app-block app-block-whisk">
-                <h3 class="font-heading" style="color: #fb923c; margin-top: 0; margin-bottom: 20px;">
-                    2. TAB WHISK — TẠO ẢNH &amp; VIDEO
-                </h3>
+            <img src="images/7.png" alt="Giao diện Cookie Whisk" class="screen-img">
+            <img src="images/2.png" alt="Giao diện Tab Whisk" class="screen-img">
 
-                <div class="prep-box prep-box-whisk">
-                    <h4 class="font-heading" style="color: #fdba74;">🔑 Chuẩn Bị — Lấy Cookie Whisk</h4>
-                    <ol>
-                        <li>Cài tiện ích <b>Cookie Exporter</b> <a
-                                href="https://chromewebstore.google.com/detail/cookie-exporter/fhnmmidekmgocpjdceeffppcodigillk"
-                                target="_blank">tại đây</a> trên Chrome/Edge/Cốc Cốc.</li>
-                        <li>Truy cập <a href="https://labs.google/fx/tools/whisk/project" target="_blank">labs.google/fx/tools/whisk</a> — đăng nhập Gmail.</li>
-                        <li>Mở Cookie Exporter &rarr; nhấn <b>"Copy as JSON"</b>.</li>
-                        <li>Mở Visual Studio Pro &rarr; Tab 2 (Whisk) &rarr; dán vào ô <b>"Cookie (JSON)"</b> &rarr; nhấn <b>"Kiểm tra &amp; Lưu"</b>.</li>
-                    </ol>
+            <div class="steps-grid">
+                <div class="step-card step-orange">
+                    <div class="step-num">1</div>
+                    <h4>Danh sách Prompt sẵn sàng</h4>
+                    <p>Nếu đã bấm "Gửi sang Whisk" từ Tab Storyboard, list Prompt đã có sẵn. Nếu không, paste thủ công.</p>
                 </div>
-				<img src="images/7.png" alt="Huong dan Tab Whisk"
-                    style="width: 100%; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                <img src="images/2.png" alt="Huong dan Tab Whisk"
-                    style="width: 100%; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                <ul>
-                    <li><b>Cài đặt sinh ảnh:</b> Chọn loại mẫu sinh ảnh (Model), Tỷ lệ khung hình và thư mục lưu kết quả.</li>
-                    <li><b>Thực thi tự động:</b> Chọn số lượng ảnh muốn tạo cho MỖI prompt &rarr; nhấn <b>"CHẠY NGAY"</b>. Quá trình sinh ảnh/video kết hợp tải về diễn ra hoàn toàn tự động, đa luồng. Bạn chỉ cần pha cafe và chờ đợi!</li>
-                </ul>
+                <div class="step-card step-orange">
+                    <div class="step-num">2</div>
+                    <h4>Cài đặt Sinh ảnh</h4>
+                    <p>Chọn Model, Tỷ lệ khung hình và thư mục lưu kết quả.</p>
+                </div>
+                <div class="step-card step-orange">
+                    <div class="step-num">3</div>
+                    <h4>CHẠY NGAY</h4>
+                    <p>Chọn số ảnh muốn tạo cho MỖI prompt → nhấn <b>"CHẠY NGAY"</b>. Sinh ảnh + tải về tự động, đa luồng. Pha cafe và chờ! ☕</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!--  PANEL 4 — 11LABS                      -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="tab-panel glass-panel" id="panel-elevenlabs" style="padding:36px;">
+            <div class="panel-title">
+                <span style="font-size:2rem;">🎙️</span>
+                <h2 class="font-heading" style="color:#7dd3fc;">Tab 11Labs — Lồng Tiếng TTS</h2>
+            </div>
+            <p class="panel-subtitle">Tạo file âm thanh từ kịch bản bằng ElevenLabs — giọng đọc tiếng Việt tự nhiên, xuất file mp3 tự động.</p>
+
+            <!-- Prep 1: VPN -->
+            <div class="prep-toggle" onclick="togglePrep(this)">
+                <span>🛡️ &nbsp;Chuẩn bị 1 — Cài ExpressVPN (bắt buộc)</span>
+                <i class="arrow">›</i>
+            </div>
+            <div class="prep-body">
+                <p style="color:#fca5a5; margin-bottom:10px;">ElevenLabs thường xuyên chặn IP lạm dụng API free — cần bật VPN trước khi dùng Tab này.</p>
+                <ol>
+                    <li>Tải ExpressVPN: <a href="https://www.expressvpn.works/clients/windows/expressvpn-windows-x64-12.201.0.12153_release.exe" target="_blank"><b>Nhấn vào đây để tải</b></a> (Windows 64-bit).</li>
+                    <li>Cài xong → mở ExpressVPN → nhấn <b>"Sign In"</b> → chọn <b>"Use Activation Code"</b>.
+                        <br><a href="https://help.divineshop.vn/huong-dan-cai-dat-va-su-dung-san-pham/huong-dan-tai-app-va-dang-nhap-express-vpn" target="_blank">📖 Xem hướng dẫn chi tiết từng bước tại đây</a>
+                    </li>
+                    <li>Nhập key kích hoạt: <code>EWTD3CGRV3PRBT8O5IBBQYM</code></li>
+                    <li>Kết nối VPN → chọn server (Singapore, Mỹ, Nhật...) → <b>Connect</b>.</li>
+                </ol>
             </div>
 
-            <!-- ===== TAB 11LABS ===== -->
-            <div id="tab-elevenlabs" class="app-block app-block-elevenlabs">
-                <h3 class="font-heading" style="color: #38bdf8; margin-top: 0; margin-bottom: 20px;">
-                    3. TAB 11LABS — LỒNG TIẾNG
-                </h3>
-
-                <div class="prep-box prep-box-elevenlabs" style="margin-bottom: 16px;">
-                    <h4 class="font-heading" style="color: #7dd3fc;">🛡️ Chuẩn Bị — Cài ExpressVPN (bắt buộc)</h4>
-                    <p style="color: var(--text-muted); margin-top: 8px; font-size: 0.95rem;">
-                        ElevenLabs thường xuyên chặn IP lạm dụng API free của họ, bạn cần bật VPN trước khi sử dụng Tab này.
-                    </p>
-                    <ol style="margin-top: 12px;">
-                        <li>Tải ExpressVPN: <a href="https://www.expressvpn.works/clients/windows/expressvpn-windows-x64-12.201.0.12153_release.exe" target="_blank"><b>Nhấn vào đây để tải</b></a> (Windows 64-bit).</li>
-                        <li>Cài đặt xong, mở ExpressVPN &rarr; nhấn <b>"Sign In"</b> &rarr; chọn <b>"Use Activation Code"</b>.
-                            <br><a href="https://help.divineshop.vn/huong-dan-cai-dat-va-su-dung-san-pham/huong-dan-tai-app-va-dang-nhap-express-vpn" target="_blank" style="font-size: 0.92rem;">📖 Xem hướng dẫn chi tiết từng bước tại đây</a>
-                        </li>
-                        <li>Nhập key kích hoạt: <code style="background: rgba(56,189,248,0.15); color: #7dd3fc; padding: 3px 10px; border-radius: 6px; font-size: 1rem; letter-spacing: 1px; user-select: all;">EWTD3CGRV3PRBT8O5IBBQYM</code></li>
-                        <li>Kết nối VPN &rarr; chọn bất kỳ server nào (Singapore, Mỹ, Nhật...) &rarr; <b>Connect</b>.</li>
-                    </ol>
-                </div>
-
-                <div class="prep-box prep-box-elevenlabs">
-                    <h4 class="font-heading" style="color: #7dd3fc;">🔑 Chuẩn Bị — API Key ElevenLabs</h4>
-                    <p style="color: var(--text-muted); margin-top: 8px; font-size: 0.95rem;">
-                        Bộ công cụ đã tích hợp sẵn <b>Pool 41 Key</b> — nhấn nút bên dưới để copy toàn bộ, sau đó dán vào mục
-                        <b>"Quản lý API Keys"</b> trong app (mỗi dòng 1 key), rồi bấm nút THÊM, sau đó bấm Kiểm tra và chờ cho tool tự động kiểm tra toàn bộ các key này.
-                        Nếu dùng key cá nhân từ <a href="https://elevenlabs.io" target="_blank">ElevenLabs</a>, dán thêm vào danh sách đó.
-                    </p>
-                    <div style="margin-top: 14px;">
-                        <button id="btn-copy-apikeys" onclick="copyElevenLabsKeys()" style="
-                            display: inline-flex; align-items: center; gap: 8px;
-                            background: linear-gradient(135deg, #0ea5e9, #38bdf8);
-                            color: #0f172a; border: none; border-radius: 8px;
-                            padding: 10px 20px; font-size: 0.95rem; font-weight: 700;
-                            cursor: pointer; transition: opacity 0.2s, transform 0.15s;
-                        " onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-                            Copy Toàn Bộ API Keys (41 keys)
-                        </button>
-                        <span id="copy-apikeys-toast" style="
-                            display: none; margin-left: 12px;
-                            color: #4ade80; font-size: 0.9rem; font-weight: 600;
-                        ">✅ Đã copy! Dán vào app ngay.</span>
-                    </div>
-                </div>
-
-                <script>
-                function copyElevenLabsKeys() {
-                    var keys = [
-                        "sk_c4e4e4540eb2b65e9cd65ba5c253b1e253bd802bf7b482bd",
-                        "sk_94bde5610be32fd8cd8d0380a5107a3c8c3ac1969a1016d9",
-                        "sk_218d9169f38662b8903074b6e2de731f6a5af9a9b6391c7f",
-                        "sk_d24ce7680f2d7986a4c04a5f8232ac5858edc261e9ffe6de",
-                        "sk_a2b36986291fb70ea98ba7a1a94b8fa29c2f283b9ae5d73f",
-                        "sk_029eab2f14a84ee1441e0046c49c308367a507d4bc161ea1",
-                        "sk_973e2a53c2a94d96b6cd4db2397300cb2ac2f4489326e22e",
-                        "sk_c0ccb9c437a923c04fa4fa8607946b415277bb276d4326cd",
-                        "sk_6fe32b582487d8133881c02dd7824db8616bc5a03cb892db",
-                        "sk_667f1879fe17ee0a161e56844d2a8ee7b0f1494bff41d23e",
-                        "sk_a271aa722dca41ddcf0629d33a534894b667ce4c9bd95bb3",
-                        "sk_ec523191314b0a88a96eed207e4061b271dd9c507f938d70",
-                        "sk_ffefb71ccbb1210dbc853b04d8f2a8ee38f148bdb35f2b4c",
-                        "sk_8da41c9d62754e0c603d130b631b1a4880e961b0fd590f5a",
-                        "sk_f65453114d8f928fc00922acf1987d2cce56c7a4c1370a76",
-                        "sk_f4381715d75dcc7d84a0d3e1ffb80af7670c30abcaffbe4e",
-                        "sk_b21cee73990890f3d2459f83f88c80cc8d14cba9e0e5fd56",
-                        "sk_b9a0a7e3221e6f0b7034e519f793099ad40b4bd8159c7575",
-                        "sk_4942b99706b4902bbed41a9a7adcb968d39c342a9217c659",
-                        "sk_f2900679f45726465dda2e1946a6c92e3029ed3ab5af7d6a",
-                        "sk_42121291a3d366a93280924223563252e245274ecf474b9c",
-                        "sk_2ddefaedf842d435066db04bd4ac6cae3a1ec3912530fc72",
-                        "sk_02f57cb41809c24e61b269166fb1655af839eec115f7ee7b",
-                        "sk_76c93cca04b43c38a6a3a5a6d0ce01285f17fda53133f2f7",
-                        "sk_336fe5f963b507aad24fcf5c6dd777efac10b72d1b327bd7",
-                        "sk_b55f8b25957cb7a75353e2af28806575d1157811e75e8367",
-                        "sk_1e99f90dbf3b423d95777d6e29a7d16066ac7cf2e688a7b0",
-                        "sk_c48e1cdd6390227d241f0acf96a7205717c11e879f121c2b",
-                        "sk_5fb9874c595564a08180cdc20f1c398a47e1f5fc73843b8d",
-                        "sk_e916ff02b63c36a522417538e6731c17870843bd9170e30e",
-                        "sk_94d367ba49574a5b8026eb5a9a24fb0eddca06b9cea4d352",
-                        "sk_39617ae9f6a2189709efa1c9c798e3986829345e9680a59a",
-                        "sk_cb94954d20e1adc45fec8e68979688ad68d9b137ab7bb808",
-                        "sk_5a562002a68f0d214c8a3021cfcfdef73ca65f5fda9c351d",
-                        "sk_fa18a38ca5f2de62d3c5ad03c82b7547cf96aa3d4c5e02df",
-                        "sk_ba1c6a0f839d8d954353b02847be6b329e0e64f647722d29",
-                        "sk_c7ea4180902f94eb2aa226f09d585a1a97c0f6d172dfef3a",
-                        "sk_a9bcccebb030326019d0974210936e7eb54afed9ead869d9",
-                        "sk_73b24b573cfb216ffd6ab2afa7099a45793d7e530ccf8016",
-                        "sk_4e5a30a6ec19d2a11ae3b28b82d122a1eddf9d785c1f4925",
-                        "sk_1ad44bfa486bb85490893ad9b43b8582d77fab09eb5cce8b"
-                    ].join("\n");
-                    navigator.clipboard.writeText(keys).then(function() {
-                        var toast = document.getElementById("copy-apikeys-toast");
-                        var btn = document.getElementById("btn-copy-apikeys");
-                        toast.style.display = "inline";
-                        btn.textContent = "✅ Đã Copy!";
-                        setTimeout(function() {
-                            toast.style.display = "none";
-                            btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg> Copy Toàn Bộ API Keys (41 keys)';
-                        }, 3000);
-                    });
-                }
-                </script>
-
-                <img src="images/3.png" alt="Huong dan Tab 11Labs"
-                    style="width: 100%; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                <ul>
-                    <li><b>Kịch bản Âm thanh:</b> Paste kịch bản lời thoại vào ô "Kịch bản cần đọc".</li>
-                    <li><b>Trợ lý Âm thanh:</b> <b>Khuyến nghị mạnh mẽ sử dụng Model v3</b> — thế hệ mới nhất của ElevenLabs, ngữ điệu cảm xúc tự nhiên như người thật, đọc tiếng Việt mượt mà.</li>
-                    <li><b>Kiểm soát Ngắt Nghỉ:</b> Tuỳ chỉnh thời gian nghỉ giữa các câu, đoạn văn. Chọn <b>Auto Silence</b> để AI tự động ngắt nghỉ tự nhiên nhất.</li>
-                    <li><b>Xuất phẩm:</b> Nhấn <b>"BẮT ĐẦU TẠO AUDIO"</b> — kết quả tự động lưu thành file mp3. Nghe thử ngay bằng Trình phát nhạc (Audio Player) tích hợp sẵn trên app.</li>
-                </ul>
+            <!-- Prep 2: API Keys -->
+            <div class="prep-toggle" onclick="togglePrep(this)">
+                <span>🔑 &nbsp;Chuẩn bị 2 — API Key ElevenLabs (Pool 41 keys)</span>
+                <i class="arrow">›</i>
             </div>
-        </section>
+            <div class="prep-body">
+                <p>Nhấn nút bên dưới để copy toàn bộ 41 key → dán vào mục <b>"Quản lý API Keys"</b> trong app (mỗi dòng 1 key) → bấm <b>THÊM</b> → bấm <b>Kiểm tra</b> và chờ app tự kiểm tra toàn bộ.</p>
+                <p style="margin-top:6px;">Nếu dùng key cá nhân từ <a href="https://elevenlabs.io" target="_blank">ElevenLabs</a>, dán thêm vào danh sách đó.</p>
+                <div>
+                    <button class="copy-key-btn" id="btn-copy-apikeys" onclick="copyElevenLabsKeys()">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        Copy Toàn Bộ API Keys (41 keys)
+                    </button>
+                    <span id="copy-apikeys-toast" style="display:none; margin-left:12px; color:#4ade80; font-size:0.9rem; font-weight:700;">✅ Đã copy! Dán vào app ngay.</span>
+                </div>
+            </div>
 
-        <!-- ===== PDF: HD CHI TIẾT APP ĐỒNG BỘ ===== -->
-        <section id="pdf-dongbo" class="guide-section glass-panel"
-            style="padding: 40px; margin-top: 30px; border-color: rgba(239,68,68,0.3);">
-            <h2 class="font-heading" style="color: #fca5a5; border-bottom-color: rgba(239,68,68,0.25);">
-                📄 HD Chi Tiết — App Đồng Bộ
-            </h2>
-            <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem;">
-                Tài liệu hướng dẫn chi tiết sử dụng App đồng bộ phiên bản V4.4. Nếu PDF không hiển thị, hãy
-                <a href="HDSD App đồng bộ_V4.4.pdf" target="_blank" style="color:#fca5a5; font-weight:600;">nhấn vào đây để tải về</a>.
+            <img src="images/3.png" alt="Giao diện Tab 11Labs" class="screen-img">
+
+            <div class="steps-grid">
+                <div class="step-card step-cyan">
+                    <div class="step-num">1</div>
+                    <h4>Kịch bản Âm thanh</h4>
+                    <p>Paste kịch bản lời thoại vào ô <b>"Kịch bản cần đọc"</b>.</p>
+                </div>
+                <div class="step-card step-cyan">
+                    <div class="step-num">2</div>
+                    <h4>Chọn Model Giọng đọc</h4>
+                    <p><b>Khuyến nghị Model v3</b> — thế hệ mới nhất, ngữ điệu cảm xúc tự nhiên, đọc tiếng Việt mượt mà.</p>
+                </div>
+                <div class="step-card step-cyan">
+                    <div class="step-num">3</div>
+                    <h4>Kiểm soát Ngắt Nghỉ</h4>
+                    <p>Tuỳ chỉnh khoảng nghỉ giữa câu/đoạn. Chọn <b>Auto Silence</b> để AI tự xử lý.</p>
+                </div>
+                <div class="step-card step-cyan">
+                    <div class="step-num">4</div>
+                    <h4>Tạo Audio &amp; Nghe thử</h4>
+                    <p>Nhấn <b>"BẮT ĐẦU TẠO AUDIO"</b> — kết quả lưu thành .mp3. Nghe thử ngay bằng Audio Player tích hợp.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!--  PANEL 5 — PDF ĐỒNG BỘ                 -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="tab-panel glass-panel" id="panel-pdf-dongbo" style="padding:36px;">
+            <div class="panel-title">
+                <span style="font-size:2rem;">📄</span>
+                <h2 class="font-heading" style="color:#fca5a5;">HD Chi Tiết — App Đồng Bộ V4.4</h2>
+            </div>
+            <p class="panel-subtitle">
+                Nếu PDF không hiển thị, hãy
+                <a href="HDSD App đồng bộ_V4.4.pdf" target="_blank" class="pdf-download-link" style="color:#fca5a5;">nhấn vào đây để tải về ↓</a>
             </p>
             <iframe src="HDSD App đồng bộ_V4.4.pdf#toolbar=1&navpanes=0"
-                style="width:100%; height:80vh; border:none; border-radius:10px;
-                       background:#1e1e2e; box-shadow: 0 0 30px rgba(239,68,68,0.2);"
+                class="pdf-frame"
+                style="box-shadow:0 0 30px rgba(239,68,68,0.2);"
                 loading="lazy"
                 title="HD chi tiết App Đồng bộ V4.4">
             </iframe>
-        </section>
+        </div>
 
-        <!-- ===== PDF: HƯỚNG DẪN PHÂN CẢNH ===== -->
-        <section id="pdf-phanccanh" class="guide-section glass-panel"
-            style="padding: 40px; margin-top: 30px; border-color: rgba(168,85,247,0.3);">
-            <h2 class="font-heading" style="color: #d8b4fe; border-bottom-color: rgba(168,85,247,0.25);">
-                📄 Hướng Dẫn Phân Cảnh
-            </h2>
-            <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem;">
-                Tài liệu hướng dẫn chi tiết tính năng Phân cảnh phiên bản V4.4. Nếu PDF không hiển thị, hãy
-                <a href="HD Phân cảnh_V4.4.pdf" target="_blank" style="color:#d8b4fe; font-weight:600;">nhấn vào đây để tải về</a>.
+        <!-- ═══════════════════════════════════════ -->
+        <!--  PANEL 6 — PDF PHÂN CẢNH               -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="tab-panel glass-panel" id="panel-pdf-phanccanh" style="padding:36px;">
+            <div class="panel-title">
+                <span style="font-size:2rem;">📄</span>
+                <h2 class="font-heading" style="color:#d8b4fe;">Hướng Dẫn Phân Cảnh V4.4</h2>
+            </div>
+            <p class="panel-subtitle">
+                Nếu PDF không hiển thị, hãy
+                <a href="HD Phân cảnh_V4.4.pdf" target="_blank" class="pdf-download-link" style="color:#d8b4fe;">nhấn vào đây để tải về ↓</a>
             </p>
             <iframe src="HD Phân cảnh_V4.4.pdf#toolbar=1&navpanes=0"
-                style="width:100%; height:80vh; border:none; border-radius:10px;
-                       background:#1e1e2e; box-shadow: 0 0 30px rgba(168,85,247,0.2);"
+                class="pdf-frame"
+                style="box-shadow:0 0 30px rgba(168,85,247,0.2);"
                 loading="lazy"
                 title="Hướng dẫn Phân cảnh V4.4">
             </iframe>
-        </section>
-    </main>
+        </div>
 
+    </main>
 
     <footer>
         <div class="footer-content">
@@ -467,10 +522,111 @@
                 <a href="https://zalo.me/g/qpdnif620" target="_blank">Hỗ trợ</a>
             </div>
         </div>
-        <div class="copyright text-center" style="margin-top: 20px;">
+        <div class="copyright text-center" style="margin-top:20px;">
             <p>&copy; 2026 AI Studio Pro. All rights reserved.</p>
         </div>
     </footer>
-</body>
 
+    <script>
+        // ── Tab switching ──
+        const tabMap = {
+            'autosync':      'panel-autosync',
+            'storyboard':    'panel-storyboard',
+            'whisk':         'panel-whisk',
+            'elevenlabs':    'panel-elevenlabs',
+            'pdf-dongbo':    'panel-pdf-dongbo',
+            'pdf-phanccanh': 'panel-pdf-phanccanh'
+        };
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const key = btn.dataset.tab;
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(tabMap[key]).classList.add('active');
+                window.scrollTo({ top: document.querySelector('.guide-wrap').offsetTop - 20, behavior: 'smooth' });
+            });
+        });
+
+        // Handle anchor links from external pages
+        const hash = window.location.hash;
+        if (hash) {
+            const anchor = hash.replace('#','');
+            const mapping = {
+                'advance-autosync': 'autosync',
+                'tab-whisk':        'whisk',
+                'tab-elevenlabs':   'elevenlabs',
+                'pdf-dongbo':       'pdf-dongbo',
+                'pdf-phanccanh':    'pdf-phanccanh'
+            };
+            const target = mapping[anchor] || anchor;
+            const btn = document.querySelector(`[data-tab="${target}"]`);
+            if (btn) btn.click();
+        }
+
+        // ── Prep accordion ──
+        function togglePrep(el) {
+            el.classList.toggle('open');
+            const body = el.nextElementSibling;
+            body.classList.toggle('open');
+        }
+
+        // ── Copy ElevenLabs keys ──
+        function copyElevenLabsKeys() {
+            var keys = [
+                "sk_c4e4e4540eb2b65e9cd65ba5c253b1e253bd802bf7b482bd",
+                "sk_94bde5610be32fd8cd8d0380a5107a3c8c3ac1969a1016d9",
+                "sk_218d9169f38662b8903074b6e2de731f6a5af9a9b6391c7f",
+                "sk_d24ce7680f2d7986a4c04a5f8232ac5858edc261e9ffe6de",
+                "sk_a2b36986291fb70ea98ba7a1a94b8fa29c2f283b9ae5d73f",
+                "sk_029eab2f14a84ee1441e0046c49c308367a507d4bc161ea1",
+                "sk_973e2a53c2a94d96b6cd4db2397300cb2ac2f4489326e22e",
+                "sk_c0ccb9c437a923c04fa4fa8607946b415277bb276d4326cd",
+                "sk_6fe32b582487d8133881c02dd7824db8616bc5a03cb892db",
+                "sk_667f1879fe17ee0a161e56844d2a8ee7b0f1494bff41d23e",
+                "sk_a271aa722dca41ddcf0629d33a534894b667ce4c9bd95bb3",
+                "sk_ec523191314b0a88a96eed207e4061b271dd9c507f938d70",
+                "sk_ffefb71ccbb1210dbc853b04d8f2a8ee38f148bdb35f2b4c",
+                "sk_8da41c9d62754e0c603d130b631b1a4880e961b0fd590f5a",
+                "sk_f65453114d8f928fc00922acf1987d2cce56c7a4c1370a76",
+                "sk_f4381715d75dcc7d84a0d3e1ffb80af7670c30abcaffbe4e",
+                "sk_b21cee73990890f3d2459f83f88c80cc8d14cba9e0e5fd56",
+                "sk_b9a0a7e3221e6f0b7034e519f793099ad40b4bd8159c7575",
+                "sk_4942b99706b4902bbed41a9a7adcb968d39c342a9217c659",
+                "sk_f2900679f45726465dda2e1946a6c92e3029ed3ab5af7d6a",
+                "sk_42121291a3d366a93280924223563252e245274ecf474b9c",
+                "sk_2ddefaedf842d435066db04bd4ac6cae3a1ec3912530fc72",
+                "sk_02f57cb41809c24e61b269166fb1655af839eec115f7ee7b",
+                "sk_76c93cca04b43c38a6a3a5a6d0ce01285f17fda53133f2f7",
+                "sk_336fe5f963b507aad24fcf5c6dd777efac10b72d1b327bd7",
+                "sk_b55f8b25957cb7a75353e2af28806575d1157811e75e8367",
+                "sk_1e99f90dbf3b423d95777d6e29a7d16066ac7cf2e688a7b0",
+                "sk_c48e1cdd6390227d241f0acf96a7205717c11e879f121c2b",
+                "sk_5fb9874c595564a08180cdc20f1c398a47e1f5fc73843b8d",
+                "sk_e916ff02b63c36a522417538e6731c17870843bd9170e30e",
+                "sk_94d367ba49574a5b8026eb5a9a24fb0eddca06b9cea4d352",
+                "sk_39617ae9f6a2189709efa1c9c798e3986829345e9680a59a",
+                "sk_cb94954d20e1adc45fec8e68979688ad68d9b137ab7bb808",
+                "sk_5a562002a68f0d214c8a3021cfcfdef73ca65f5fda9c351d",
+                "sk_fa18a38ca5f2de62d3c5ad03c82b7547cf96aa3d4c5e02df",
+                "sk_ba1c6a0f839d8d954353b02847be6b329e0e64f647722d29",
+                "sk_c7ea4180902f94eb2aa226f09d585a1a97c0f6d172dfef3a",
+                "sk_a9bcccebb030326019d0974210936e7eb54afed9ead869d9",
+                "sk_73b24b573cfb216ffd6ab2afa7099a45793d7e530ccf8016",
+                "sk_4e5a30a6ec19d2a11ae3b28b82d122a1eddf9d785c1f4925",
+                "sk_1ad44bfa486bb85490893ad9b43b8582d77fab09eb5cce8b"
+            ].join("\n");
+            navigator.clipboard.writeText(keys).then(function() {
+                var toast = document.getElementById("copy-apikeys-toast");
+                var btn   = document.getElementById("btn-copy-apikeys");
+                toast.style.display = "inline";
+                btn.textContent = "✅ Đã Copy!";
+                setTimeout(function() {
+                    toast.style.display = "none";
+                    btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg> Copy Toàn Bộ API Keys (41 keys)';
+                }, 3000);
+            });
+        }
+    </script>
+</body>
 </html>
