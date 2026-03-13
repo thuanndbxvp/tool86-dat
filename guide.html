@@ -172,29 +172,65 @@
         }
         .panel-subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 26px; }
 
-        /* ── Prep box (always visible) ── */
+        /* ── Prep box (with toggle) ── */
         .prep-box {
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.12);
             border-radius: 14px;
             padding: 18px 20px;
             margin-bottom: 20px;
-            font-size: 0.9rem; color: var(--text-muted); line-height: 1.75;
+        }
+        .prep-header {
+            display: flex; align-items: center; justify-content: space-between;
+            cursor: pointer; user-select: none;
         }
         .prep-box-title {
             font-size: 0.97rem; font-weight: 700;
-            color: #fff; margin-bottom: 12px;
-            display: flex; align-items: center; gap: 8px;
+            color: #fff; display: flex; align-items: center; gap: 8px;
         }
-        .prep-box ol { padding-left: 18px; margin: 0; }
-        .prep-box li { margin-bottom: 8px; }
-        .prep-box a { color: var(--secondary); font-weight: 600; }
-        .prep-box p { margin: 0 0 8px; }
-        .prep-box code {
+        .prep-toggle-btn {
+            font-size: 0.78rem; font-weight: 700; color: var(--card-accent);
+            text-transform: uppercase; background: rgba(255,255,255,0.05);
+            padding: 4px 10px; border-radius: 6px; border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .prep-box:hover .prep-toggle-btn { border-color: var(--card-accent); }
+        
+        .prep-content {
+            display: none;
+            margin-top: 15px;
+            font-size: 0.88rem; color: var(--text-muted); line-height: 1.75;
+            animation: fadeInDown 0.25s ease-out;
+        }
+        .prep-box.open .prep-content { display: block; }
+        .prep-box.open .prep-toggle-btn { background: var(--card-accent); color: #000; }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .prep-content ol { padding-left: 18px; margin: 0; }
+        .prep-content li { margin-bottom: 8px; }
+        .prep-content a { color: var(--secondary); font-weight: 600; }
+        .prep-content code {
             background: rgba(56,189,248,0.15); color: #7dd3fc;
             padding: 2px 10px; border-radius: 6px;
-            font-size: 0.97rem; letter-spacing: 1px; user-select: all;
+            font-size: 0.95rem; letter-spacing: 0.5px;
         }
+
+        /* PDF Toggle Button */
+        .pdf-toggle-wrap { text-align: center; margin: 15px 0; }
+        .btn-pdf-view {
+            background: rgba(255,255,255,0.05); border: 1.5px solid var(--card-accent);
+            color: var(--card-accent); font-weight: 700; padding: 12px 28px;
+            border-radius: 50px; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-pdf-view:hover { background: var(--card-accent); color: #000; }
+        .pdf-frame { display: none; }
+        .pdf-section.open .pdf-frame { display: block; }
+        .pdf-section.open .btn-pdf-view { background: rgba(255,255,255,0.1); color: #fff; border-color: transparent; }
+
 
         /* ── Screenshot ── */
         .screen-img {
@@ -379,13 +415,18 @@
             </div>
             <p class="panel-subtitle">AI tự động chia kịch bản thành từng Prompt sinh ảnh riêng biệt, rồi gửi thẳng sang Tab Whisk & 11Labs.</p>
 
-            <div class="prep-box">
-                <div class="prep-box-title">🔑 Chuẩn bị — Lấy API Key Gemini</div>
-                <ol>
-                    <li>Truy cập <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>.</li>
-                    <li>Đăng nhập Google → nhấn <b>"Create API key"</b> → sao chép toàn bộ mã.</li>
-                    <li>Mở Visual Studio Pro → Tab 1 (Storyboard) → dán vào khung API → nhấn <b>"Kiểm tra &amp; Lưu"</b>.</li>
-                </ol>
+            <div class="prep-box anc-indigo">
+                <div class="prep-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="prep-box-title">🔑 Chuẩn bị — Lấy API Key Gemini</div>
+                    <span class="prep-toggle-btn">Xem hướng dẫn</span>
+                </div>
+                <div class="prep-content">
+                    <ol>
+                        <li>Truy cập <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>.</li>
+                        <li>Đăng nhập Google → nhấn <b>"Create API key"</b> → sao chép mã.</li>
+                        <li>Dán vào khung API Tab 1 &amp; nhấn <b>"Kiểm tra &amp; Lưu"</b>.</li>
+                    </ol>
+                </div>
             </div>
 
             <img src="images/1.png" alt="Giao diện Tab Storyboard" class="screen-img">
@@ -429,14 +470,19 @@
             </div>
             <p class="panel-subtitle">Tự động gửi từng Prompt sang Whisk (Google), sinh ảnh/video đa luồng và tải về máy hoàn toàn tự động.</p>
 
-            <div class="prep-box">
-                <div class="prep-box-title">🔑 Chuẩn bị — Lấy Cookie Whisk <span style="font-size:0.78rem;font-weight:500;color:var(--text-muted);">(chỉ làm 1 lần)</span></div>
-                <ol>
-                    <li>Cài tiện ích <b>Cookie Exporter</b> <a href="https://chromewebstore.google.com/detail/cookie-exporter/fhnmmidekmgocpjdceeffppcodigillk" target="_blank">tại đây</a> trên Chrome/Edge/Cốc Cốc.</li>
-                    <li>Truy cập <a href="https://labs.google/fx/tools/whisk/project" target="_blank">labs.google/fx/tools/whisk</a> — đăng nhập Gmail.</li>
-                    <li>Mở Cookie Exporter → nhấn <b>"Copy as JSON"</b>.</li>
-                    <li>Mở Visual Studio Pro → Tab 2 (Whisk) → dán vào ô <b>"Cookie (JSON)"</b> → nhấn <b>"Kiểm tra &amp; Lưu"</b>.</li>
-                </ol>
+            <div class="prep-box anc-orange">
+                <div class="prep-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="prep-box-title">🔑 Chuẩn bị — Lấy Cookie Whisk <span style="font-size:0.75rem;opacity:0.6;">(xong 1 lần dùng mãi)</span></div>
+                    <span class="prep-toggle-btn">Xem hướng dẫn</span>
+                </div>
+                <div class="prep-content">
+                    <ol>
+                        <li>Cài tiện ích <b>Cookie Exporter</b> <a href="https://chromewebstore.google.com/detail/cookie-exporter/fhnmmidekmgocpjdceeffppcodigillk" target="_blank">tại đây</a>.</li>
+                        <li>Truy cập <a href="https://labs.google/fx/tools/whisk/project" target="_blank">Whisk Labs</a> → đăng nhập Gmail.</li>
+                        <li>Mở Cookie Exporter → nhấn <b>"Copy as JSON"</b>.</li>
+                        <li>Dán vào ô <b>"Cookie (JSON)"</b> Tab 2 &amp; nhấn <b>"Kiểm tra &amp; Lưu"</b>.</li>
+                    </ol>
+                </div>
             </div>
 
             <img src="images/7.png" alt="Giao diện Cookie Whisk" class="screen-img">
@@ -467,29 +513,35 @@
             </div>
             <p class="panel-subtitle">Tạo file âm thanh từ kịch bản bằng ElevenLabs — giọng đọc tiếng Việt tự nhiên, xuất file mp3 tự động.</p>
 
-            <div class="prep-box">
-                <div class="prep-box-title">🛡️ Chuẩn bị 1 — Cài ExpressVPN <span style="font-size:0.78rem;font-weight:500;color:#fca5a5;">(bắt buộc)</span></div>
-                <p style="color:#fca5a5; margin-bottom:10px;">ElevenLabs thường xuyên chặn IP lạm dụng API free — cần bật VPN trước khi dùng Tab này.</p>
-                <ol>
-                    <li>Tải ExpressVPN: <a href="https://www.expressvpn.works/clients/windows/expressvpn-windows-x64-12.201.0.12153_release.exe" target="_blank"><b>Nhấn vào đây để tải</b></a> (Windows 64-bit).</li>
-                    <li>Cài xong → mở ExpressVPN → nhấn <b>"Sign In"</b> → chọn <b>"Use Activation Code"</b>.
-                        <br><a href="https://help.divineshop.vn/huong-dan-cai-dat-va-su-dung-san-pham/huong-dan-tai-app-va-dang-nhap-express-vpn" target="_blank">📖 Xem hướng dẫn chi tiết từng bước tại đây</a>
-                    </li>
-                    <li>Nhập key kích hoạt: <code>EWTD3CGRV3PRBT8O5IBBQYM</code></li>
-                    <li>Kết nối VPN → chọn server (Singapore, Mỹ, Nhật...) → <b>Connect</b>.</li>
-                </ol>
+            <div class="prep-box anc-cyan">
+                <div class="prep-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="prep-box-title">🛡️ Chuẩn bị 1 — VPN <span style="font-size:0.75rem;opacity:0.8;color:#fca5a5;">(bắt buộc)</span></div>
+                    <span class="prep-toggle-btn">Cài đặt VPN</span>
+                </div>
+                <div class="prep-content">
+                    <p style="color:#fca5a5; margin-bottom:10px;">Cần bật VPN IP nước ngoài để ElevenLabs không chặn.</p>
+                    <ol>
+                        <li>Tải ExpressVPN: <a href="https://www.expressvpn.works/clients/windows/expressvpn-windows-x64-12.201.0.12153_release.exe" target="_blank"><b>Tải tại đây</b></a>.</li>
+                        <li>Mở app → **Sign In** → **Use Activation Code**.</li>
+                        <li>Nhập key: <code>EWTD3CGRV3PRBT8O5IBBQYM</code></li>
+                        <li>Kết nối Singapore hoặc Mỹ. <a href="https://help.divineshop.vn/huong-dan-cai-dat-va-su-dung-san-pham/huong-dan-tai-app-va-dang-nhap-express-vpn" target="_blank">Chi tiết →</a></li>
+                    </ol>
+                </div>
             </div>
 
-            <div class="prep-box">
-                <div class="prep-box-title">🔑 Chuẩn bị 2 — API Key ElevenLabs <span style="font-size:0.78rem;font-weight:500;color:var(--text-muted);">(Pool 41 keys)</span></div>
-                <p>Nhấn nút bên dưới để copy toàn bộ 41 key → dán vào mục <b>"Quản lý API Keys"</b> trong app (mỗi dòng 1 key) → bấm <b>THÊM</b> → bấm <b>Kiểm tra</b> và chờ app tự kiểm tra toàn bộ.</p>
-                <p>Nếu dùng key cá nhân từ <a href="https://elevenlabs.io" target="_blank">ElevenLabs</a>, dán thêm vào danh sách đó.</p>
-                <div>
-                    <button class="copy-key-btn" id="btn-copy-apikeys" onclick="copyElevenLabsKeys()">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-                        Copy Toàn Bộ API Keys (41 keys)
-                    </button>
-                    <span id="copy-apikeys-toast" style="display:none; margin-left:12px; color:#4ade80; font-size:0.9rem; font-weight:700;">✅ Đã copy! Dán vào app ngay.</span>
+            <div class="prep-box anc-cyan">
+                <div class="prep-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="prep-box-title">🔑 Chuẩn bị 2 — 41 API Keys</div>
+                    <span class="prep-toggle-btn">Copy &amp; Nạp Key</span>
+                </div>
+                <div class="prep-content">
+                    <p>Nhấn nút bên dưới để copy → dán vào mục <b>"Quản lý API Keys"</b> → bấm <b>THÊM</b> → <b>Kiểm tra</b>.</p>
+                    <div>
+                        <button class="copy-key-btn" id="btn-copy-apikeys" onclick="copyElevenLabsKeys()">
+                            📋 Copy 41 API Keys
+                        </button>
+                        <span id="copy-apikeys-toast" style="display:none; margin-left:12px; color:#4ade80; font-size:0.9rem; font-weight:700;">✅ Đã copy! Dán vào app ngay.</span>
+                    </div>
                 </div>
             </div>
 
@@ -522,41 +574,30 @@
         <!-- ═══════════════════════════════════════ -->
         <!--  PANEL 5 — PDF ĐỒNG BỘ                 -->
         <!-- ═══════════════════════════════════════ -->
-        <div class="tab-panel glass-panel" id="panel-pdf-dongbo" style="padding:36px;">
+        <div class="tab-panel glass-panel pdf-section anc-red" id="panel-pdf-dongbo" style="padding:36px;">
             <div class="panel-title">
-                <span style="font-size:2rem;">📄</span>
+                <span style="font-size:1.8rem;">📄</span>
                 <h2 class="font-heading" style="color:#fca5a5;">HD Chi Tiết — App Đồng Bộ V4.4</h2>
             </div>
-            <p class="panel-subtitle">
-                Nếu PDF không hiển thị, hãy
-                <a href="HDSD App đồng bộ_V4.4.pdf" target="_blank" class="pdf-download-link" style="color:#fca5a5;">nhấn vào đây để tải về ↓</a>
-            </p>
-            <iframe src="HDSD App đồng bộ_V4.4.pdf#toolbar=1&navpanes=0"
-                class="pdf-frame"
-                style="box-shadow:0 0 30px rgba(239,68,68,0.2);"
-                loading="lazy"
-                title="HD chi tiết App Đồng bộ V4.4">
-            </iframe>
+            <div class="pdf-toggle-wrap">
+                <button class="btn-pdf-view" onclick="this.closest('.pdf-section').classList.toggle('open'); this.textContent = this.closest('.pdf-section').classList.contains('open') ? 'Đóng tài liệu' : 'Mở xem tài liệu (PDF)'">
+                    Mở xem tài liệu (PDF)
+                </button>
+            </div>
+            <iframe src="HDSD App đồng bộ_V4.4.pdf#toolbar=1&navpanes=0" class="pdf-frame" loading="lazy"></iframe>
         </div>
 
-        <!-- ═══════════════════════════════════════ -->
-        <!--  PANEL 6 — PDF PHÂN CẢNH               -->
-        <!-- ═══════════════════════════════════════ -->
-        <div class="tab-panel glass-panel" id="panel-pdf-phanccanh" style="padding:36px;">
+        <div class="tab-panel glass-panel pdf-section anc-violet" id="panel-pdf-phanccanh" style="padding:36px;">
             <div class="panel-title">
-                <span style="font-size:2rem;">📄</span>
+                <span style="font-size:1.8rem;">📄</span>
                 <h2 class="font-heading" style="color:#d8b4fe;">Hướng Dẫn Phân Cảnh V4.4</h2>
             </div>
-            <p class="panel-subtitle">
-                Nếu PDF không hiển thị, hãy
-                <a href="HD Phân cảnh_V4.4.pdf" target="_blank" class="pdf-download-link" style="color:#d8b4fe;">nhấn vào đây để tải về ↓</a>
-            </p>
-            <iframe src="HD Phân cảnh_V4.4.pdf#toolbar=1&navpanes=0"
-                class="pdf-frame"
-                style="box-shadow:0 0 30px rgba(168,85,247,0.2);"
-                loading="lazy"
-                title="Hướng dẫn Phân cảnh V4.4">
-            </iframe>
+            <div class="pdf-toggle-wrap">
+                <button class="btn-pdf-view" onclick="this.closest('.pdf-section').classList.toggle('open'); this.textContent = this.closest('.pdf-section').classList.contains('open') ? 'Đóng tài liệu' : 'Mở xem tài liệu (PDF)'">
+                    Mở xem tài liệu (PDF)
+                </button>
+            </div>
+            <iframe src="HD Phân cảnh_V4.4.pdf#toolbar=1&navpanes=0" class="pdf-frame" loading="lazy"></iframe>
         </div>
 
     </main>
@@ -591,20 +632,24 @@
         };
 
         function switchTab(key) {
-            // deactivate all cards
+            const card = document.querySelector(`.app-nav-card[data-tab="${key}"]`);
+            const panel = document.getElementById(tabMap[key]);
+            const isAlreadyActive = card.classList.contains('active');
+
+            // Deactivate all
             document.querySelectorAll('.app-nav-card').forEach(c => c.classList.remove('active'));
-            // deactivate all panels
             document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-            // activate clicked card
-            document.querySelector(`.app-nav-card[data-tab="${key}"]`).classList.add('active');
-            // activate panel
-            const panelId = tabMap[key];
-            if (panelId) document.getElementById(panelId).classList.add('active');
-            // smooth scroll to panel area
-            const wrap = document.querySelector('.guide-wrap');
-            const firstCard = document.querySelector('.app-cards-grid');
-            const scrollTarget = firstCard ? firstCard.getBoundingClientRect().bottom + window.scrollY + 20 : wrap.offsetTop;
-            window.scrollTo({ top: scrollTarget - 10, behavior: 'smooth' });
+
+            if (!isAlreadyActive) {
+                // Open
+                card.classList.add('active');
+                if (panel) panel.classList.add('active');
+                
+                // Scroll
+                const scrollTarget = document.querySelector('.pdf-cards-grid').getBoundingClientRect().bottom + window.scrollY + 20;
+                window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+            }
+            // else: closed (all inactive)
         }
 
         // Handle anchor links from external pages
